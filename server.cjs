@@ -98,3 +98,27 @@ app.post('/create-new-user', async function(request, response) {
          })
      }
  })
+
+ app.delete('/delete-restaurant-details/:id', async function(request, response){
+    try{
+        const restuarant=await Restaurant.findById
+        if(restuarant){
+            await Restaurant.findByIdAndDelete(request.params.id)
+            response.status(200).json({
+                "status":"success",
+                "message":"deleted successfully"
+            })
+        }else { //restaurant : null
+            response.status(404).json({
+                "status" : "failure",
+                "message" : "entry not found"
+            })
+        }
+    }catch(error){
+        response.status(500).json({
+            "status":"failure",
+            "message":"could not delete",
+            "error":error
+        })
+    }
+ })
